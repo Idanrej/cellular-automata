@@ -25,7 +25,7 @@ public class Cell : MonoBehaviour
     }
     private State GetState()
     {
-        int rnd = Random.Range(0, 5);
+        int rnd = Random.Range(0, 6);
         switch (rnd)
         {
             case 0:
@@ -44,7 +44,7 @@ public class Cell : MonoBehaviour
     }
     public WindDirection GetWindState()
     {
-        int rnd = Random.Range(0, 5);
+        int rnd = Random.Range(0, 10);
         switch (rnd)
         {
             case 0:
@@ -58,19 +58,20 @@ public class Cell : MonoBehaviour
             case 4:
                 return WindDirection.None;
             default:
-                return WindDirection.West;
+                return WindDirection.None;
         }
     }
-    public bool isAlive = false;
-    public int numNeighbors = 0;
+   
+    public float windEffect = 0;
+    public int rainDays;
     public State state;
-    public int temperature;
-    public int airPolotion;
+    public float temperature;
+    public float airPolotion;
     public bool cloud;
     public WindDirection wind;
+    private bool init = true;
 
-
-    private void Start()
+    private void Awake()
     {
         state = GetState();
         wind = GetWindState();
@@ -79,30 +80,92 @@ public class Cell : MonoBehaviour
         cloud = false;
         
     }
-
-    public void SetAlive(bool alive)
+    public bool GetRain()
     {
-        isAlive = alive;
-        if (alive)
+        int rnd = Random.Range(0, 10);
+        if (rnd > 8)
         {
-            //GetComponent<SpriteRenderer>().enabled = true;
-            if(this.state == State.Forest)
-                GetComponent<SpriteRenderer>().color = Color.green;
-            if (this.state == State.Iceberg)
-                GetComponent<SpriteRenderer>().color = Color.cyan;
-            if (this.state == State.City)
-                GetComponent<SpriteRenderer>().color = Color.gray;
-            if (this.state == State.Land)
-                GetComponent<SpriteRenderer>().color = Color.yellow;
-            if (this.state == State.Sea)
-                GetComponent<SpriteRenderer>().color = Color.blue;
-
+            return true;
+        }
+        return false;
+    }
+    public void GetCloud()
+    {
+        int rnd = Random.Range(0, 10);
+        if(rnd > 8)
+        {
+            this.cloud = true;
         }
         else
         {
-            //GetComponent<SpriteRenderer>().enabled = false;
-            GetComponent<SpriteRenderer>().color = Color.white;
+            this.cloud = false;
         }
+    }
+    public void SetAlive()
+    {
+
+        this.GetCloud();
+        if (this.state == State.Forest)
+        {
+            GetComponent<SpriteRenderer>().color = Color.green;
+            if(init)
+            {
+                temperature = 15;
+                init = false;
+            }
+            
+        }
+            
+        if (this.state == State.Iceberg)
+        {
+            GetComponent<SpriteRenderer>().color = Color.cyan;
+            if (init)
+            {
+                temperature = -20;
+                init = false;
+            }
+        }
+            
+        if (this.state == State.City)
+        {
+            GetComponent<SpriteRenderer>().color = Color.gray;
+            if(this.temperature > 80)
+            {
+                GetComponent<SpriteRenderer>().color = Color.red;
+            }
+            if (this.temperature < 0)
+            {
+                GetComponent<SpriteRenderer>().color = Color.white;
+            }
+            if (init)
+            {
+                temperature = 20;
+                airPolotion = 31;
+                init = false;
+            }
+            
+        }
+            
+        if (this.state == State.Land)
+        {
+            GetComponent<SpriteRenderer>().color = Color.yellow;
+            if (init)
+            {
+                temperature = 10;
+                init = false;
+            }
+        }
+            
+        if (this.state == State.Sea)
+        {
+            GetComponent<SpriteRenderer>().color = Color.blue;
+            if (init)
+            {
+                temperature = 20;
+                init = false;
+            }
+        }
+               
 
     }
 }
