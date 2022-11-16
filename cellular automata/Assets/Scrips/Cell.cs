@@ -83,7 +83,7 @@ public class Cell : MonoBehaviour
     public bool GetRain()
     {
         int rnd = Random.Range(0, 10);
-        if (rnd > 8)
+        if (rnd > 7)
         {
             return true;
         }
@@ -92,7 +92,7 @@ public class Cell : MonoBehaviour
     public void GetCloud()
     {
         int rnd = Random.Range(0, 10);
-        if(rnd > 8)
+        if(rnd > 7)
         {
             this.cloud = true;
         }
@@ -161,7 +161,7 @@ public class Cell : MonoBehaviour
             GetComponent<SpriteRenderer>().color = Color.blue;
             if (init)
             {
-                temperature = 20;
+                temperature = 40;
                 init = false;
             }
         }
