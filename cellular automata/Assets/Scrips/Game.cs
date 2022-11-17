@@ -135,8 +135,7 @@ public class Game : MonoBehaviour
                     }
                     
                 }
-                //if (grid[x, y].wind == Cell.WindDirection.None && grid[x, y].state != Cell.State.City)
-                //    grid[x, y].windEffect -= 1;
+                
                 grid[x, y].airPolotion += grid[x, y].windEffect;
                 if(grid[x, y].airPolotion > 30)
                 {
@@ -152,10 +151,7 @@ public class Game : MonoBehaviour
                 if (grid[x, y].state == Cell.State.City)
                 {
                     grid[x, y].airPolotion += cityPolotionRate;
-                    //if (grid[x, y].temperature > 70)
-                    //{
-                    //    grid[x, y].state = Cell.State.Land;
-                    //}
+                    
                 }
                 if (grid[x, y].state == Cell.State.Forest)
                 {
@@ -179,10 +175,7 @@ public class Game : MonoBehaviour
                 }
                 if (grid[x, y].state == Cell.State.Land)
                 {
-                    //if(grid[x, y].rainDays > 20)
-                    //{
-                    //    grid[x, y].state = Cell.State.Forest;
-                    //}
+                    
                     if (grid[x, y].temperature < 0)
                     {
                         grid[x, y].state = Cell.State.Iceberg;
@@ -256,6 +249,8 @@ public class Game : MonoBehaviour
 
         return Mathf.Sqrt(totalTempSum);
     }
+
+    // Print the data to the screen.
     void DataPrinter()
     {
         daysText.text = "day: " + days;
@@ -281,7 +276,8 @@ public class Game : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (timer >= updateRate)
+        
+        if (timer >= updateRate && days < 366)
         {
 
             timer = 0;

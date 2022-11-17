@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class Cell : MonoBehaviour
 {
+    //Enum for all posible states
     public enum State
     {
         Land,
@@ -15,6 +16,7 @@ public class Cell : MonoBehaviour
         City
 
     }
+    //Enum for all wind direction options.
     public enum WindDirection
     {
         North,
@@ -23,6 +25,7 @@ public class Cell : MonoBehaviour
         West,
         None
     }
+    // Choose a random state foe the cell.
     private State GetState()
     {
         int rnd = Random.Range(0, 6);
@@ -42,6 +45,7 @@ public class Cell : MonoBehaviour
                 return State.City;
         }
     }
+    //Choose random direction for the cell wind.
     public WindDirection GetWindState()
     {
         int rnd = Random.Range(0, 10);
@@ -61,7 +65,7 @@ public class Cell : MonoBehaviour
                 return WindDirection.None;
         }
     }
-   
+    
     public float windEffect = 0;
     public int rainDays;
     public State state;
@@ -70,7 +74,15 @@ public class Cell : MonoBehaviour
     public bool cloud;
     public WindDirection wind;
     private bool init = true;
+    float forestBaseTemp = 15;
+    float seaBaseTemp = 22;
+    float cityBaseTemp = 20;
+    float cityBasePolotion = 20;
+    float icebergBaseTemp = -20;
 
+    float landBaseTemp = 15;
+
+    //Init the cell.
     private void Awake()
     {
         state = GetState();
@@ -80,6 +92,8 @@ public class Cell : MonoBehaviour
         cloud = false;
         
     }
+
+    //Random rain 
     public bool GetRain()
     {
         int rnd = Random.Range(0, 10);
@@ -89,6 +103,8 @@ public class Cell : MonoBehaviour
         }
         return false;
     }
+
+    // Random cloud
     public void GetCloud()
     {
         int rnd = Random.Range(0, 10);
@@ -101,6 +117,8 @@ public class Cell : MonoBehaviour
             this.cloud = false;
         }
     }
+    // Set the cell alive - give it its color and initial temp, polotion.
+    // if the state has changed change color.
     public void SetAlive()
     {
 
@@ -110,7 +128,7 @@ public class Cell : MonoBehaviour
             GetComponent<SpriteRenderer>().color = Color.green;
             if(init)
             {
-                temperature = 15;
+                temperature = forestBaseTemp;
                 init = false;
             }
             
@@ -121,7 +139,7 @@ public class Cell : MonoBehaviour
             GetComponent<SpriteRenderer>().color = Color.cyan;
             if (init)
             {
-                temperature = -20;
+                temperature = icebergBaseTemp;
                 init = false;
             }
         }
@@ -139,8 +157,8 @@ public class Cell : MonoBehaviour
             }
             if (init)
             {
-                temperature = 20;
-                airPolotion = 31;
+                temperature = cityBaseTemp;
+                airPolotion = cityBasePolotion;
                 init = false;
             }
             
@@ -151,7 +169,7 @@ public class Cell : MonoBehaviour
             GetComponent<SpriteRenderer>().color = Color.yellow;
             if (init)
             {
-                temperature = 10;
+                temperature = landBaseTemp;
                 init = false;
             }
         }
@@ -161,7 +179,7 @@ public class Cell : MonoBehaviour
             GetComponent<SpriteRenderer>().color = Color.blue;
             if (init)
             {
-                temperature = 40;
+                temperature = seaBaseTemp;
                 init = false;
             }
         }
